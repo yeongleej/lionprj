@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-#s^_kt0@_hn$@(s=^&07j%++fg+0*ytli6i325b(sr7ify+9hd')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = (os.environ.get('DEBUG', 'True') != 'False')
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
 ALLOWED_HOSTS = ['*']
 
@@ -45,8 +45,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -151,6 +151,8 @@ AWS_S3_SIGNATURE_VERSION = 's3v4'
 AWS_S3_REGION_NAME = 'ap-northeast-2'
 AWS_S3_CUSTOM_DOMAIN = ''
 
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500)
+# settings.py 
+# Heroku: Update database configuration from $DATABASE_URL. 
+import dj_database_url 
+db_from_env = dj_database_url.config(conn_max_age=500) 
 DATABASES['default'].update(db_from_env)
